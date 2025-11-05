@@ -1,0 +1,32 @@
+# Recursive Fibonacci with step count
+
+steps = 0  # Global variable to count steps
+
+def fib_recursive(n):
+    global steps
+    steps += 1  # Count each function call
+    if n <= 1:
+        return n
+    else:
+        return fib_recursive(n-1) + fib_recursive(n-2)
+
+n = int(input("Enter the term number (n): "))
+steps = 0
+result = fib_recursive(n)
+print(f"Fibonacci({n}) = {result}")
+print(f"Total steps (recursive calls): {steps}")
+
+# Iterative Fibonacci with step count
+
+def fib_iterative(n):
+    steps = 0
+    a, b = 0, 1
+    for i in range(n):
+        steps += 1
+        a, b = b, a + b
+    return a, steps
+
+n = int(input("Enter the term number (n): "))
+result, steps = fib_iterative(n)
+print(f"Fibonacci({n}) = {result}")
+print(f"Total steps (iterations): {steps}")

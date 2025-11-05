@@ -1,0 +1,27 @@
+# Program to generate Binomial Coefficients using Dynamic Programming
+
+def binomial_coefficient(n, k):
+    # Create a 2D DP table with (n+1) x (k+1)
+    C = [[0 for x in range(k + 1)] for y in range(n + 1)]
+
+    # Build the table in bottom-up manner
+    for i in range(n + 1):
+        for j in range(min(i, k) + 1):
+            # Base Cases
+            if j == 0 or j == i:
+                C[i][j] = 1
+            else:
+                # Recursive relation
+                C[i][j] = C[i - 1][j - 1] + C[i - 1][j]
+
+    return C[n][k], C  # Return both value and table
+
+
+# Example usage
+if __name__ == "__main__":
+    n = int(input("Enter n: "))
+    k = int(input("Enter k: "))
+
+    result, dp_table = binomial_coefficient(n, k)
+
+    print(f"C({n}, {k}) = {result}")

@@ -1,0 +1,56 @@
+# 8-Queens Problem using Backtracking
+
+N = 8  # Size of the chessboard (8x8)
+
+def print_solution(board):
+    for row in board:
+        print(" ".join(str(x) for x in row))
+    print()
+
+def is_safe(board, row, col):
+    # Check column above
+    for i in range(row):
+        if board[i][col] == 1:
+            return False
+
+    # Check upper left diagonal
+    for i, j in zip(range(row-1, -1, -1), range(col-1, -1, -1)):
+        if board[i][j] == 1:
+            return False
+
+    # Check upper right diagonal
+    for i, j in zip(range(row-1, -1, -1), range(col+1, N)):
+        if board[i][j] == 1:
+            return False
+
+    return True
+
+def solve_n_queens(board, row):
+    # Base condition — all queens placed
+    if row >= N:
+        print("Final 8-Queens Solution:")
+        print_solution(board)
+        return True
+
+    # Try placing queen in all columns of the current row
+    for col in range(N):
+        if is_safe(board, row, col):
+            board[row][col] = 1  # Place queen
+            if solve_n_queens(board, row + 1):
+                return True
+            board[row][col] = 0  # Backtrack if no solution found
+
+    return False
+
+
+# Main program
+if __name__ == "__main__":
+    # Initialize empty board
+    board = [[0 for _ in range(N)] for _ in range(N)]
+
+    # Place the first Queen manually (for example, at position [0][0])
+    board[0][0] = 1
+
+    # Solve for remaining 7 queens
+    if not solve_n_queens(board, 1):
+        print("No solution exists.")

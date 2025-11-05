@@ -1,0 +1,30 @@
+# 0-1 Knapsack Problem using Dynamic Programming
+
+def knapsack(values, weights, capacity):
+    n = len(values)
+    # Create DP table initialized with 0
+    K = [[0 for x in range(capacity + 1)] for y in range(n + 1)]
+
+    # Build table K[][] bottom-up
+    for i in range(1, n + 1):
+        for w in range(1, capacity + 1):
+            if weights[i-1] <= w:
+                # Choose max of including or excluding current item
+                K[i][w] = max(values[i-1] + K[i-1][w - weights[i-1]],
+                              K[i-1][w])
+            else:
+                K[i][w] = K[i-1][w]
+
+    # Final value (bottom-right of table)
+    return K[n][capacity], K
+
+
+# Example usage
+if __name__ == "__main__":
+    values = [60, 100, 120]
+    weights = [10, 20, 30]
+    capacity = 50
+
+    max_value, dp_table = knapsack(values, weights, capacity)
+
+    print("Maximum value in Knapsack =", max_value)

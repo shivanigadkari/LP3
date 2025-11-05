@@ -1,0 +1,52 @@
+# Job Sequencing with Deadlines using Greedy Method
+
+# Job class to hold job details
+class Job:
+    def __init__(self, job_id, deadline, profit):
+        self.id = job_id
+        self.deadline = deadline
+        self.profit = profit
+
+# Function to schedule jobs for maximum profit
+def job_sequencing(jobs):
+    # Sort jobs by profit (descending)
+    jobs.sort(key=lambda x: x.profit, reverse=True)
+
+    n = len(jobs)
+    # Find maximum deadline to define number of slots
+    max_deadline = max(job.deadline for job in jobs)
+
+    # Initialize slots (None means free)
+    slots = [None] * (max_deadline + 1)
+
+    total_profit = 0
+    job_order = []
+
+    # Greedy scheduling
+    for job in jobs:
+        # Try to schedule job at latest available slot before its deadline
+        for slot in range(job.deadline, 0, -1):
+            if slots[slot] is None:
+                slots[slot] = job.id
+                total_profit += job.profit
+                job_order.append(job.id)
+                break
+
+    return job_order, total_profit
+
+
+# Example Usage
+if __name__ == "__main__":
+    # List of jobs: JobID, Deadline, Profit
+    jobs = [
+        Job('J1', 2, 100),
+        Job('J2', 1, 19),
+        Job('J3', 2, 27),
+        Job('J4', 1, 25),
+        Job('J5', 3, 15)
+    ]
+
+    order, profit = job_sequencing(jobs)
+
+    print("Scheduled job order:", order)
+    print("Total Profit:", profit)
